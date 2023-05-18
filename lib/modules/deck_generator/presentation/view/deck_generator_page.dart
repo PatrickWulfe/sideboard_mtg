@@ -12,7 +12,7 @@ class DeckGeneratorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => Modular.get<DeckGeneratorBloc>(),
-      child: Container(),
+      child: const MobileDeckGeneratorView(),
     );
   }
 }
