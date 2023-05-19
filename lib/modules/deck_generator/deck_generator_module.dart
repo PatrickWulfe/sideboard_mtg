@@ -13,7 +13,7 @@ class DeckGeneratorModule extends Module {
 
   @override
   List<ModularRoute> get routes => [
-        ChildRoute(
+        ChildRoute<dynamic>(
           DeckGeneratorRoutes.deckGenerator.name,
           child: (context, args) => const DeckGeneratorPage(),
         ),

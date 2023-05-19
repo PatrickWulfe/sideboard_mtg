@@ -13,7 +13,7 @@ class AppModule extends Module {
 
   @override
   List<ModularRoute> get routes => [
-        ChildRoute(
+        ChildRoute<dynamic>(
           AppRoutes.home.name,
           child: (context, args) => const HomePage(),
         ),

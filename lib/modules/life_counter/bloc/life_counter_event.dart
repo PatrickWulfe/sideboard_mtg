@@ -1,4 +1,6 @@
 part of 'life_counter_bloc.dart';
 
-@immutable
-abstract class LifeCounterEvent {}
+@freezed
+class LifeCounterEvent with _$LifeCounterEvent {
+  const factory LifeCounterEvent.started() = _Started;
+}
