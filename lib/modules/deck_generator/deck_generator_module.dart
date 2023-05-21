@@ -14,21 +14,21 @@ class DeckGeneratorModule extends Module {
   @override
   List<ModularRoute> get routes => [
         ChildRoute<dynamic>(
-          DeckGeneratorRoutes.deckGenerator.name,
+          DeckGeneratorRoutes.base.name,
           child: (context, args) => const DeckGeneratorPage(),
         ),
       ];
 }
 
 enum DeckGeneratorRoutes {
-  deckGenerator,
+  base,
 }
 
 extension DeckGeneratorRouteNameExtension on DeckGeneratorRoutes {
   String get name {
     switch (this) {
-      case DeckGeneratorRoutes.deckGenerator:
-        return '/deck_generator';
+      case DeckGeneratorRoutes.base:
+        return '/';
     }
   }
 }

@@ -5,7 +5,10 @@ part 'failure.g.dart';
 
 @freezed
 class Failure with _$Failure {
-  factory Failure() = _Failure;
+  factory Failure({
+    required String message,
+    int? statusCode,
+  }) = _Failure;
 
   factory Failure.fromJson(Map<String, dynamic> json) =>
       _$FailureFromJson(json);

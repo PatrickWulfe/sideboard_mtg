@@ -8,8 +8,11 @@ class OpenAIRepositoryImpl implements OpenAIRepository {
   Future<Either<Failure, List<OpenAIModelModel>>> getModels() async {
     try {
       return Right(await OpenAI.instance.model.list());
-    } on Exception {
-      return Left(Failure());
+    } on RequestFailedException catch (e) {
+      return Left(Failure(
+        message: e.message,
+        statusCode: e.statusCode,
+      ));
     }
   }
 
@@ -22,10 +25,14 @@ class OpenAIRepositoryImpl implements OpenAIRepository {
         await OpenAI.instance.completion.create(
           prompt: prompt,
           model: 'text-davinci-003',
+          n: 1,
         ),
       );
-    } on Exception {
-      return Left(Failure());
+    } on RequestFailedException catch (e) {
+      return Left(Failure(
+        message: e.message,
+        statusCode: e.statusCode,
+      ));
     }
   }
 }

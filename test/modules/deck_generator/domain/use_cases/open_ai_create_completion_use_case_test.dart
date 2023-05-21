@@ -33,7 +33,7 @@ void main() {
         usage: null,
       ),
     );
-    when(() => mockRepository.createCompletion(prompt)).thenAnswer(
+    when(() => mockRepository.createChatCompletion(prompt)).thenAnswer(
       (_) => Future.value(rv),
     );
 
@@ -41,7 +41,7 @@ void main() {
     final result = await useCase.execute(prompt);
 
     // assert
-    verify(() => mockRepository.createCompletion(prompt)).called(1);
+    verify(() => mockRepository.createChatCompletion(prompt)).called(1);
     expect(result, equals(rv));
   });
 }
