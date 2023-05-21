@@ -1,8 +1,8 @@
-import 'dart:async';
+import 'dart:convert';
 
-import 'package:bloc/bloc.dart';
 import 'package:dart_openai/dart_openai.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:sideboard/modules/deck_generator/deck_generator_index.dart';
 import 'package:sideboard/modules/deck_generator/domain/use_cases/open_ai_create_chat_completion_use_case.dart';
 import 'package:sideboard/modules/deck_generator/domain/use_cases/open_ai_create_completion_use_case.dart';
@@ -11,7 +11,8 @@ part 'deck_generator_bloc.freezed.dart';
 part 'deck_generator_event.dart';
 part 'deck_generator_state.dart';
 
-class DeckGeneratorBloc extends Bloc<DeckGeneratorEvent, DeckGeneratorState> {
+class DeckGeneratorBloc
+    extends HydratedBloc<DeckGeneratorEvent, DeckGeneratorState> {
   DeckGeneratorBloc({
     required OpenAIRepository openAIRepository,
   })  : _openAIRepository = openAIRepository,
@@ -37,6 +38,7 @@ class DeckGeneratorBloc extends Bloc<DeckGeneratorEvent, DeckGeneratorState> {
               content: prompt,
             )
           ];
+          emit(state.copyWith(messages: messages));
           final result =
               await _openAICreateChatCompletionUseCase.execute(messages);
           result.fold(
@@ -64,8 +66,12 @@ class DeckGeneratorBloc extends Bloc<DeckGeneratorEvent, DeckGeneratorState> {
       _openAICreateChatCompletionUseCase;
 
   @override
-  Future<void> close() {
-    // _completionStream?.cancel();
-    return super.close();
+  DeckGeneratorState? fromJson(Map<String, dynamic> json) {
+    return DeckGeneratorState.fromMap(json as Map<String, Object>);
+  }
+
+  @override
+  Map<String, dynamic>? toJson(DeckGeneratorState state) {
+    return state.toMap();
   }
 }

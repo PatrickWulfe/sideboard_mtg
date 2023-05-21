@@ -23,6 +23,7 @@ class MobileDeckGeneratorView extends HookWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                // Chat History
                 Expanded(
                   child: SingleChildScrollView(
                     reverse: true,
@@ -48,6 +49,7 @@ class MobileDeckGeneratorView extends HookWidget {
                     ),
                   ),
                 ),
+                // Message Box
                 TextField(
                   controller: textController,
                   onSubmitted: (value) =>
