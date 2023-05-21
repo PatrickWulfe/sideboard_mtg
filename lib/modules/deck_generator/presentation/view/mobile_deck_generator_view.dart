@@ -1,6 +1,8 @@
+import 'package:dart_openai/dart_openai.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:gap/gap.dart';
 import 'package:sideboard/modules/deck_generator/presentation/bloc/deck_generator_bloc.dart';
 
 class MobileDeckGeneratorView extends HookWidget {
@@ -13,6 +15,7 @@ class MobileDeckGeneratorView extends HookWidget {
 
     return BlocBuilder<DeckGeneratorBloc, DeckGeneratorState>(
       builder: (context, state) {
+        final appTheme = Theme.of(context);
         return Scaffold(
           appBar: AppBar(),
           body: Container(
@@ -20,28 +23,47 @@ class MobileDeckGeneratorView extends HookWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Row(
-                  children: [
-                    Flexible(
-                      child: TextField(
-                        controller: textController,
-                        onSubmitted: (value) => bloc
-                            .add(DeckGeneratorEvent.submission(prompt: value)),
-                        decoration: InputDecoration(
-                          suffixIcon: IconButton(
-                            onPressed: () => bloc.add(
-                              DeckGeneratorEvent.submission(
-                                prompt: textController.text,
-                              ),
-                            ),
-                            icon: const Icon(Icons.send),
-                          ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    reverse: true,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: state.messages.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        if (state.messages[index].role ==
+                            OpenAIChatMessageRole.user) {
+                          return Container(
+                            padding: const EdgeInsets.all(16),
+                            color: appTheme.colorScheme.primaryContainer,
+                            child: Text(state.messages[index].content),
+                          );
+                        }
+                        return Container(
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.all(16),
+                          color: appTheme.colorScheme.secondaryContainer,
+                          child: Text(state.messages[index].content),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                TextField(
+                  controller: textController,
+                  onSubmitted: (value) =>
+                      bloc.add(DeckGeneratorEvent.submission(prompt: value)),
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      onPressed: () => bloc.add(
+                        DeckGeneratorEvent.submission(
+                          prompt: textController.text,
                         ),
                       ),
+                      icon: const Icon(Icons.send),
                     ),
-                    Flexible(child: Text(state.response)),
-                  ],
+                  ),
                 ),
+                const Gap(16),
               ],
             ),
           ),

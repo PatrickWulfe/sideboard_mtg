@@ -1,4 +1,4 @@
-import 'package:dart_openai/openai.dart';
+import 'package:dart_openai/dart_openai.dart';
 import 'package:dartz/dartz.dart';
 import 'package:sideboard/core/constants/failure.dart';
 import 'package:sideboard/modules/deck_generator/deck_generator_index.dart';
@@ -9,10 +9,12 @@ class OpenAIRepositoryImpl implements OpenAIRepository {
     try {
       return Right(await OpenAI.instance.model.list());
     } on RequestFailedException catch (e) {
-      return Left(Failure(
-        message: e.message,
-        statusCode: e.statusCode,
-      ));
+      return Left(
+        Failure(
+          message: e.message,
+          statusCode: e.statusCode,
+        ),
+      );
     }
   }
 
@@ -25,14 +27,36 @@ class OpenAIRepositoryImpl implements OpenAIRepository {
         await OpenAI.instance.completion.create(
           prompt: prompt,
           model: 'text-davinci-003',
-          n: 1,
         ),
       );
     } on RequestFailedException catch (e) {
-      return Left(Failure(
-        message: e.message,
-        statusCode: e.statusCode,
-      ));
+      return Left(
+        Failure(
+          message: e.message,
+          statusCode: e.statusCode,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, OpenAIChatCompletionModel>> createChatCompletion(
+    List<OpenAIChatCompletionChoiceMessageModel> messages,
+  ) async {
+    try {
+      return Right(
+        await OpenAI.instance.chat.create(
+          model: 'gpt-3.5-turbo',
+          messages: messages,
+        ),
+      );
+    } on RequestFailedException catch (e) {
+      return Left(
+        Failure(
+          message: e.message,
+          statusCode: e.statusCode,
+        ),
+      );
     }
   }
 }

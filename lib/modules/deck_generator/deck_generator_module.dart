@@ -7,7 +7,9 @@ class DeckGeneratorModule extends Module {
   List<Bind<Object>> get binds => [
         Bind.singleton((i) => OpenAIRepositoryImpl()),
         BlocBind.singleton<DeckGeneratorBloc>(
-          (i) => DeckGeneratorBloc(openAIRepository: i()),
+          (i) => DeckGeneratorBloc(
+            openAIRepository: i(),
+          ),
         ),
       ];
 

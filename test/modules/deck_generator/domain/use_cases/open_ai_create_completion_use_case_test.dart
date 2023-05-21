@@ -1,4 +1,4 @@
-import 'package:dart_openai/openai.dart';
+import 'package:dart_openai/dart_openai.dart';
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -33,7 +33,7 @@ void main() {
         usage: null,
       ),
     );
-    when(() => mockRepository.createChatCompletion(prompt)).thenAnswer(
+    when(() => mockRepository.createCompletion(prompt)).thenAnswer(
       (_) => Future.value(rv),
     );
 
@@ -41,7 +41,7 @@ void main() {
     final result = await useCase.execute(prompt);
 
     // assert
-    verify(() => mockRepository.createChatCompletion(prompt)).called(1);
+    verify(() => mockRepository.createCompletion(prompt)).called(1);
     expect(result, equals(rv));
   });
 }
