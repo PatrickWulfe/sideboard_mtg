@@ -1,4 +1,4 @@
-package com.example.verygoodcore.sideboard_mtg
+package com.patrickwulfe.sideboard
 
 import io.flutter.embedding.android.FlutterActivity
 

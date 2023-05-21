@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.verygoodcore.sideboard_mtg">
+    package="com.patrickwulfe.sideboard">
    <application
-        android:label="sideboard_mtg"
+        android:label="sideboard"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

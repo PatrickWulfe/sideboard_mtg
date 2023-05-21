@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(sideboard_mtg LANGUAGES CXX)
+project(sideboard LANGUAGES CXX)
 
-set(BINARY_NAME "sideboard_mtg")
+set(BINARY_NAME "sideboard")
 
 cmake_policy(SET CMP0063 NEW)
 

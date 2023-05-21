@@ -1,6 +1,6 @@
 {
-    "name": "Sideboard Mtg",
-    "short_name": "Sideboard Mtg",
+    "name": "Sideboard",
+    "short_name": "Sideboard",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
