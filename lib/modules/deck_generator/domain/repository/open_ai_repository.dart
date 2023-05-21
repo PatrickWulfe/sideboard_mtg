@@ -1,7 +1,7 @@
 import 'package:dart_openai/openai.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:sideboard_mtg/core/constants/failure.dart';
+import 'package:sideboard/core/constants/failure.dart';
 
 abstract class OpenAIRepository {
   Future<Either<Failure, List<OpenAIModelModel>>> getModels();

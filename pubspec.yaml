@@ -1,4 +1,4 @@
-name: sideboard_mtg
+name: sideboard
 description: An all purpose MTG app built in Flutter
 version: 1.0.0+1
 publish_to: none

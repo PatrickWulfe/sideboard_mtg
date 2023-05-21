@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:sideboard_mtg/l10n/l10n.dart';
+import 'package:sideboard/l10n/l10n.dart';
 
 class App extends StatelessWidget {
   const App({super.key});

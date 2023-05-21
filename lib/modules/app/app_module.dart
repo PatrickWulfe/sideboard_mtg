@@ -1,6 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:sideboard_mtg/modules/app/presentation/home_page/home_page.dart';
-import 'package:sideboard_mtg/modules/deck_generator/deck_generator_module.dart';
+import 'package:sideboard/modules/app/presentation/home_page/home_page.dart';
+import 'package:sideboard/modules/deck_generator/deck_generator_module.dart';
 
 class AppModule extends Module {
   @override

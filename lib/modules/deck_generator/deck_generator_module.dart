@@ -1,6 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:modular_bloc_bind/modular_bloc_bind.dart';
-import 'package:sideboard_mtg/modules/deck_generator/deck_generator_index.dart';
+import 'package:sideboard/modules/deck_generator/deck_generator_index.dart';
 
 class DeckGeneratorModule extends Module {
   @override
