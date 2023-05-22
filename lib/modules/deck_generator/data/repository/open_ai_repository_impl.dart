@@ -10,7 +10,7 @@ class OpenAIRepositoryImpl implements OpenAIRepository {
       return Right(await OpenAI.instance.model.list());
     } on RequestFailedException catch (e) {
       return Left(
-        Failure(
+        Failure.openAIRequestFailure(
           message: e.message,
           statusCode: e.statusCode,
         ),
@@ -31,7 +31,7 @@ class OpenAIRepositoryImpl implements OpenAIRepository {
       );
     } on RequestFailedException catch (e) {
       return Left(
-        Failure(
+        Failure.openAIRequestFailure(
           message: e.message,
           statusCode: e.statusCode,
         ),
@@ -52,7 +52,7 @@ class OpenAIRepositoryImpl implements OpenAIRepository {
       );
     } on RequestFailedException catch (e) {
       return Left(
-        Failure(
+        Failure.openAIRequestFailure(
           message: e.message,
           statusCode: e.statusCode,
         ),
