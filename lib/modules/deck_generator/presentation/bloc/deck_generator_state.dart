@@ -4,16 +4,16 @@ part of 'deck_generator_bloc.dart';
 class DeckGeneratorState with _$DeckGeneratorState {
   const DeckGeneratorState._();
   const factory DeckGeneratorState.initial({
-    required List<OpenAIChatCompletionChoiceMessageModel> messages,
+    required List<OpenAIChatCompletionChoiceMessageModel> aiMessages,
   }) = _Initial;
 
   factory DeckGeneratorState.fromMap(Map<String, Object> json) =>
       DeckGeneratorState.initial(
-        messages: (json['messages'] ?? [])
+        aiMessages: (json['aiMessages'] ?? [])
             as List<OpenAIChatCompletionChoiceMessageModel>,
       );
 
   Map<String, dynamic> toMap() => {
-        'messages': messages.map((e) => jsonEncode(e.toMap())).toList(),
+        'aiMessages': aiMessages.map((e) => jsonEncode(e.toMap())).toList(),
       };
 }

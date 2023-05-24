@@ -11,20 +11,24 @@ import 'package:sideboard/firebase_options.dart';
 import 'package:sideboard/modules/app/app_index.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  HydratedBloc.storage = await HydratedStorage.build(
-    storageDirectory: kIsWeb
-        ? HydratedStorage.webStorageDirectory
-        : await getApplicationDocumentsDirectory(),
-  );
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  OpenAI.apiKey = Env.openAIApiKey;
-
   await bootstrap(
-    () => ModularApp(
-      module: AppModule(),
-      child: const App(),
-    ),
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
+
+      HydratedBloc.storage = await HydratedStorage.build(
+        storageDirectory: kIsWeb
+            ? HydratedStorage.webStorageDirectory
+            : await getApplicationDocumentsDirectory(),
+      );
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+      OpenAI.apiKey = Env.openAIApiKey;
+
+      return ModularApp(
+        module: AppModule(),
+        child: const App(),
+      );
+    },
   );
 }

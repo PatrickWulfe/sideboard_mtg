@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:scryfall_api/scryfall_api.dart' as sfa;
 import 'package:sideboard/core/constants/failure.dart';
@@ -6,7 +7,7 @@ import 'package:sideboard/modules/mtg_submodule/data/data_index.dart';
 import 'package:sideboard/modules/mtg_submodule/domain/repository/mtg_repository.dart';
 
 class MtgRepositoryImpl implements MtgRepository {
-  final apiClient = sfa.ScryfallApiClient();
+  final sfa.ScryfallApiClient apiClient = Modular.get<sfa.ScryfallApiClient>();
 
   @override
   Future<Either<Failure, MtgCardModel?>> getMtgCardByID(String id) async {

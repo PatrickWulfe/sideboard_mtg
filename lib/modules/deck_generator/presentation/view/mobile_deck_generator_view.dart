@@ -1,76 +1,199 @@
 import 'package:dart_openai/dart_openai.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:gap/gap.dart';
 import 'package:sideboard/modules/deck_generator/presentation/bloc/deck_generator_bloc.dart';
+import 'package:sideboard/modules/deck_generator/presentation/view/widgets/chat_bubble.dart';
 
 class MobileDeckGeneratorView extends HookWidget {
   const MobileDeckGeneratorView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final textController = useTextEditingController();
+    final appTheme = Theme.of(context);
     final bloc = context.read<DeckGeneratorBloc>();
+    final _textController = useTextEditingController();
 
-    return BlocBuilder<DeckGeneratorBloc, DeckGeneratorState>(
-      builder: (context, state) {
-        final appTheme = Theme.of(context);
-        return Scaffold(
-          appBar: AppBar(),
-          body: Container(
-            constraints: const BoxConstraints(maxWidth: 1000),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                // Chat History
-                Expanded(
-                  child: SingleChildScrollView(
-                    reverse: true,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: state.messages.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        if (state.messages[index].role ==
-                            OpenAIChatMessageRole.user) {
-                          return Container(
-                            padding: const EdgeInsets.all(16),
-                            color: appTheme.colorScheme.primaryContainer,
-                            child: Text(state.messages[index].content),
-                          );
-                        }
-                        return Container(
-                          alignment: Alignment.centerRight,
-                          padding: const EdgeInsets.all(16),
-                          color: appTheme.colorScheme.secondaryContainer,
-                          child: Text(state.messages[index].content),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                // Message Box
-                TextField(
-                  controller: textController,
-                  onSubmitted: (value) =>
-                      bloc.add(DeckGeneratorEvent.submission(prompt: value)),
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      onPressed: () => bloc.add(
-                        DeckGeneratorEvent.submission(
-                          prompt: textController.text,
+    return Scaffold(
+      appBar: AppBar(),
+      body: Center(
+        child: SafeArea(
+          child: Container(
+            padding: const EdgeInsets.only(
+              bottom: 16,
+              left: 16,
+              right: 16,
+            ),
+            child: BlocBuilder<DeckGeneratorBloc, DeckGeneratorState>(
+              builder: (context, state) {
+                return Column(
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        reverse: true,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: AnimateList(
+                            effects: [
+                              FadeEffect(duration: .2.seconds),
+                              ScaleEffect()
+                            ],
+                            children: state.aiMessages.map((e) {
+                              if (e.role == OpenAIChatMessageRole.user) {
+                                return _UserMessageBubble(
+                                  nextMessageInGroup: false,
+                                  message: e.content,
+                                );
+                              }
+                              return _SystemMessageBubble(
+                                nextMessageInGroup: false,
+                                message: e.content,
+                              );
+                            }).toList(),
+                          ),
                         ),
                       ),
-                      icon: const Icon(Icons.send),
                     ),
-                  ),
-                ),
-                const Gap(16),
-              ],
+                    TextField(
+                      controller: _textController,
+                      onSubmitted: (value) {
+                        bloc.add(DeckGeneratorEvent.submission(prompt: value));
+                        _textController.text = '';
+                      },
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.send),
+                          onPressed: () {
+                            bloc.add(
+                              DeckGeneratorEvent.submission(
+                                prompt: _textController.text,
+                              ),
+                            );
+                            _textController.text = '';
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+                // return Chat(
+                //   theme: DarkChatTheme(
+                //     backgroundColor: appTheme.colorScheme.background,
+                //   ),
+                //   user: const types.User(id: 'User'),
+                //   onSendPressed: (value) {
+                //     bloc.add(
+                //       DeckGeneratorEvent.submission(prompt: value.text),
+                //     );
+                //   },
+                //   bubbleBuilder: (
+                //     child, {
+                //     required message,
+                //     required nextMessageInGroup,
+                //   }) =>
+                //       _UserMessageBubble(
+                //     message: message,
+                //     nextMessageInGroup: nextMessageInGroup,
+                //     child: child,
+                //   ),
+                //   messages: state.aiMessages
+                //       .map(
+                //         (e) => const types.TextMessage(
+                //           id: 'some',
+                //           author: types.User(id: 'User'),
+                //           // text: e.content,
+                //           text: 'coolio',
+                //         ),
+                //       )
+                //       .toList(),
+                // );
+              },
             ),
           ),
-        );
-      },
+        ),
+      ),
+    );
+  }
+}
+
+const _messagePadding = 32.0;
+
+class _SystemMessageBubble extends StatelessWidget {
+  const _SystemMessageBubble({
+    required this.message,
+    required this.nextMessageInGroup,
+    super.key,
+  });
+
+  final String message;
+  final bool nextMessageInGroup;
+
+  @override
+  Widget build(BuildContext context) {
+    final appTheme = Theme.of(context);
+    return Container(
+      alignment: Alignment.centerRight,
+      margin: const EdgeInsets.only(left: _messagePadding),
+      child: Container(
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+        clipBehavior: Clip.antiAlias,
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        child: BubbleBackground(
+          colors: [
+            appTheme.colorScheme.surface,
+            appTheme.colorScheme.surfaceVariant,
+          ],
+          child: Container(
+            margin: const EdgeInsets.all(16),
+            child: Text(
+              message,
+              style: appTheme.textTheme.bodyLarge?.copyWith(
+                color: appTheme.colorScheme.onSurface,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _UserMessageBubble extends StatelessWidget {
+  const _UserMessageBubble({
+    required this.message,
+    required this.nextMessageInGroup,
+    super.key,
+  });
+
+  final String message;
+  final bool nextMessageInGroup;
+
+  @override
+  Widget build(BuildContext context) {
+    final appTheme = Theme.of(context);
+    return Container(
+      alignment: Alignment.centerLeft,
+      margin: const EdgeInsets.only(right: _messagePadding),
+      child: Container(
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+        clipBehavior: Clip.antiAlias,
+        child: BubbleBackground(
+          colors: [
+            appTheme.colorScheme.primary,
+            appTheme.colorScheme.tertiary,
+          ],
+          child: Container(
+            margin: const EdgeInsets.all(16),
+            child: Text(
+              message,
+              style: appTheme.textTheme.bodyLarge?.copyWith(
+                color: appTheme.colorScheme.onPrimary,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

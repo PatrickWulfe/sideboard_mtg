@@ -18,7 +18,7 @@ class DeckGeneratorBloc
   })  : _openAIRepository = openAIRepository,
         super(
           const _Initial(
-            messages: [],
+            aiMessages: [],
           ),
         ) {
     // Initialize use cases
@@ -32,13 +32,13 @@ class DeckGeneratorBloc
         started: () {},
         submission: (prompt) async {
           final messages = [
-            ...state.messages,
+            ...state.aiMessages,
             OpenAIChatCompletionChoiceMessageModel(
               role: OpenAIChatMessageRole.user,
               content: prompt,
-            )
+            ),
           ];
-          emit(state.copyWith(messages: messages));
+          emit(state.copyWith(aiMessages: messages));
           final result =
               await _openAICreateChatCompletionUseCase.execute(messages);
           result.fold(
@@ -50,7 +50,7 @@ class DeckGeneratorBloc
               ];
               emit(
                 state.copyWith(
-                  messages: stateMessages,
+                  aiMessages: stateMessages,
                 ),
               );
             },

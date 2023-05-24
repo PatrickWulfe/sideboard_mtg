@@ -19,7 +19,7 @@ void main() {
         Bind.instance<OpenAIRepository>(mockRepository),
       ],
     );
-    useCase = OpenAICreateCompletionUseCase(mockRepository);
+    useCase = OpenAICreateCompletionUseCase(repository: mockRepository);
   });
   test('Should get OpenAICompletionModel from the repository', () async {
     // arrange
