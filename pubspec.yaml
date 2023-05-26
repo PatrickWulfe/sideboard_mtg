@@ -9,7 +9,7 @@ environment:
 dependencies:
   auto_route: ^7.1.0
   bloc: ^8.1.1
-  dart_openai: ^1.9.92
+  dart_openai: ^1.9.93
   dartz: ^0.10.1
   envied: ^0.3.0+3
   firebase_core: ^2.13.0
