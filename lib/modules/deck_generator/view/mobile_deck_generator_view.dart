@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:sideboard/modules/deck_generator/presentation/bloc/deck_generator_bloc.dart';
-import 'package:sideboard/modules/deck_generator/presentation/view/widgets/chat_bubble.dart';
+import 'package:sideboard/modules/deck_generator/bloc/bloc_index.dart';
+import 'package:sideboard/modules/deck_generator/view/widgets/chat_bubble.dart';
 
 class MobileDeckGeneratorView extends HookWidget {
   const MobileDeckGeneratorView({super.key});
@@ -13,7 +13,7 @@ class MobileDeckGeneratorView extends HookWidget {
   Widget build(BuildContext context) {
     final appTheme = Theme.of(context);
     final bloc = context.read<DeckGeneratorBloc>();
-    final _textController = useTextEditingController();
+    final textController = useTextEditingController();
 
     return Scaffold(
       appBar: AppBar(),
@@ -37,7 +37,7 @@ class MobileDeckGeneratorView extends HookWidget {
                           children: AnimateList(
                             effects: [
                               FadeEffect(duration: .2.seconds),
-                              ScaleEffect()
+                              const ScaleEffect(),
                             ],
                             children: state.aiMessages.map((e) {
                               if (e.role == OpenAIChatMessageRole.user) {
@@ -56,10 +56,10 @@ class MobileDeckGeneratorView extends HookWidget {
                       ),
                     ),
                     TextField(
-                      controller: _textController,
+                      controller: textController,
                       onSubmitted: (value) {
                         bloc.add(DeckGeneratorEvent.submission(prompt: value));
-                        _textController.text = '';
+                        textController.text = '';
                       },
                       decoration: InputDecoration(
                         suffixIcon: IconButton(
@@ -67,10 +67,10 @@ class MobileDeckGeneratorView extends HookWidget {
                           onPressed: () {
                             bloc.add(
                               DeckGeneratorEvent.submission(
-                                prompt: _textController.text,
+                                prompt: textController.text,
                               ),
                             );
-                            _textController.text = '';
+                            textController.text = '';
                           },
                         ),
                       ),

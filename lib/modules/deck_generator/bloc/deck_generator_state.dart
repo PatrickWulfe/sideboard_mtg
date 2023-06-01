@@ -3,12 +3,16 @@ part of 'deck_generator_bloc.dart';
 @freezed
 class DeckGeneratorState with _$DeckGeneratorState {
   const DeckGeneratorState._();
-  const factory DeckGeneratorState.initial({
+  const factory DeckGeneratorState.normal({
     required List<OpenAIChatCompletionChoiceMessageModel> aiMessages,
-  }) = _Initial;
+  }) = _Normal;
+  const factory DeckGeneratorState.failure({
+    required List<OpenAIChatCompletionChoiceMessageModel> aiMessages,
+    required Failure error,
+  }) = _Failure;
 
   factory DeckGeneratorState.fromMap(Map<String, Object> json) =>
-      DeckGeneratorState.initial(
+      DeckGeneratorState.normal(
         aiMessages: (json['aiMessages'] ?? [])
             as List<OpenAIChatCompletionChoiceMessageModel>,
       );
