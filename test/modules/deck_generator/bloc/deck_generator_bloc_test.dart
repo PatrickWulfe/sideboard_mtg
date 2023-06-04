@@ -8,13 +8,17 @@ import 'package:sideboard/modules/deck_generator/deck_generator_index.dart';
 
 class MockStorage extends Mock implements Storage {}
 
+class MockDeckGeneratorBloc
+    extends MockBloc<DeckGeneratorEvent, DeckGeneratorState>
+    implements DeckGeneratorBloc {}
+
 void main() {
   late OpenAIRepository mockRepository;
   late Storage storage;
+  final deckGeneratorBloc = MockDeckGeneratorBloc();
 
   setUp(() async {
     mockRepository = MockOpenAIRepository();
-
     storage = MockStorage();
     when(() => storage.write(any(), any<dynamic>())).thenAnswer((_) async {});
     when(() => storage.read(any())).thenAnswer((_) async => null);
@@ -29,9 +33,18 @@ void main() {
   });
 
   group('DeckGeneratorBloc', () {
+    whenListen(
+      deckGeneratorBloc,
+      Stream.fromIterable([
+        const DeckGeneratorState.normal(
+          aiMessages: [],
+        ),
+      ]),
+    );
     blocTest<DeckGeneratorBloc, DeckGeneratorState>(
       'emits',
-      build: () => DeckGeneratorBloc(openAIRepository: mockRepository),
+      build: () => deckGeneratorBloc,
+      act: (bloc) => bloc.add(const DeckGeneratorEvent.submission(prompt: '')),
       expect: () => [isA<DeckGeneratorState>()],
     );
   });

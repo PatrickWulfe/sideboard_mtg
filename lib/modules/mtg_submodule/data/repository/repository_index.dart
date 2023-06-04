@@ -1,1 +1,1 @@
-export 'mtg_repository_impl.dart';
+export 'scryfall_repository.dart';

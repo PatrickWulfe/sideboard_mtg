@@ -37,6 +37,7 @@ class MtgCardModel with _$MtgCardModel {
     required ImageUrisModel? imageUris,
     required MtgRarity rarity,
     required String setName,
+    required String url,
   }) = _MtgCardModel;
 
   factory MtgCardModel.fromJson(Map<String, dynamic> json) =>
@@ -76,6 +77,7 @@ class MtgCardModel with _$MtgCardModel {
       imageUris: ImageUrisModel.fromSFImageUris(mtgCard.imageUris),
       rarity: getMtgRarityByName(mtgCard.rarity.name),
       setName: mtgCard.setName,
+      url: mtgCard.uri.toString(),
     );
   }
 }

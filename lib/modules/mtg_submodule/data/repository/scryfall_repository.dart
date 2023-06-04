@@ -1,12 +1,13 @@
-import 'package:flutter_modular/flutter_modular.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:scryfall_api/scryfall_api.dart' as sfa;
 import 'package:sideboard/core/constants/failure.dart';
 import 'package:sideboard/modules/mtg_submodule/data/data_index.dart';
 import 'package:sideboard/modules/mtg_submodule/domain/repository/mtg_repository.dart';
 
-class MtgRepositoryImpl implements MtgRepository {
-  final sfa.ScryfallApiClient apiClient = Modular.get<sfa.ScryfallApiClient>();
+class ScryfallRepository implements MtgRepository {
+  ScryfallRepository({
+    required this.apiClient,
+  });
+  final sfa.ScryfallApiClient apiClient;
 
   @override
   Future<(Failure?, MtgCardModel?)> getMtgCardByID(String id) async {
@@ -27,7 +28,7 @@ class MtgRepositoryImpl implements MtgRepository {
   }
 
   @override
-  Future<GetCardsBySearchPattern> getMtgCardsBySearch(
+  Future<(Failure?, PaginableList<MtgCardModel>?)> getMtgCardsBySearch(
     String searchStr,
   ) async {
     try {
@@ -63,7 +64,5 @@ class MtgRepositoryImpl implements MtgRepository {
   }
 }
 
-class MockMtgRepositoryImpl extends Mock implements MtgRepositoryImpl {}
-
-typedef GetCardByIdPattern = (Failure?, MtgCardModel?);
-typedef GetCardsBySearchPattern = (Failure?, PaginableList<MtgCardModel>?);
+// typedef GetCardByIdPattern = (Failure?, MtgCardModel?);
+// typedef GetCardsBySearchPattern = (Failure?, PaginableList<MtgCardModel>?);
