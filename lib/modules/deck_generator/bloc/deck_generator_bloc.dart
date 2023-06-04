@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:dart_openai/dart_openai.dart';
@@ -26,7 +27,7 @@ class DeckGeneratorBloc
     });
   }
 
-  Future<void> _onSubmission(
+  FutureOr<void> _onSubmission(
     String prompt,
     Emitter<DeckGeneratorState> emit,
   ) async {
@@ -39,25 +40,27 @@ class DeckGeneratorBloc
     ];
     emit(state.copyWith(aiMessages: messages));
     final result = await _openAIRepository.createChatCompletion(messages);
-    result.fold(
-      (l) => emit(
-        DeckGeneratorState.failure(
-          aiMessages: state.aiMessages,
-          error: l,
-        ),
-      ),
-      (r) {
+    switch (result) {
+      case (final Failure failure, null):
+        emit(
+          DeckGeneratorState.failure(
+            aiMessages: state.aiMessages,
+            error: failure,
+          ),
+        );
+        return;
+      case (null, final OpenAIChatCompletionModel chatCompletion):
         final stateMessages = [
           ...messages,
-          r.choices.first.message,
+          chatCompletion.choices.first.message,
         ];
         emit(
           state.copyWith(
             aiMessages: stateMessages,
           ),
         );
-      },
-    );
+        break;
+    }
   }
 
   final OpenAIRepository _openAIRepository;

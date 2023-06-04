@@ -6,8 +6,6 @@ import 'package:mocktail/mocktail.dart';
 import 'package:modular_test/modular_test.dart';
 import 'package:sideboard/core/constants/failure.dart';
 import 'package:sideboard/modules/deck_generator/deck_generator_index.dart';
-import 'package:sideboard/modules/deck_generator/deck_generator_module.dart';
-import 'package:sideboard/modules/deck_generator/domain/use_cases/open_ai_create_completion_use_case.dart';
 
 void main() {
   final mockRepository = MockOpenAIRepository();

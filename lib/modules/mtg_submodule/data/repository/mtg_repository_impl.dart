@@ -1,4 +1,3 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:scryfall_api/scryfall_api.dart' as sfa;
@@ -10,24 +9,25 @@ class MtgRepositoryImpl implements MtgRepository {
   final sfa.ScryfallApiClient apiClient = Modular.get<sfa.ScryfallApiClient>();
 
   @override
-  Future<Either<Failure, MtgCardModel?>> getMtgCardByID(String id) async {
+  Future<(Failure?, MtgCardModel?)> getMtgCardByID(String id) async {
     try {
       final response = await apiClient.getCardById(id);
-      return Right(MtgCardModel.fromSFCard(response));
+      return (null, (MtgCardModel.fromSFCard(response)));
     } on sfa.ScryfallException catch (e) {
-      return Left(
+      return (
         Failure.repositoryException(
           code: e.code,
           details: e.details,
           status: e.status,
           warnings: e.warnings,
         ),
+        null
       );
     }
   }
 
   @override
-  Future<Either<Failure, PaginableList<MtgCardModel>>> getMtgCardsBySearch(
+  Future<GetCardsBySearchPattern> getMtgCardsBySearch(
     String searchStr,
   ) async {
     try {
@@ -40,7 +40,8 @@ class MtgRepositoryImpl implements MtgRepository {
         includeMultilingual: false,
         includeVariations: false,
       );
-      return Right(
+      return (
+        null,
         PaginableList(
           data: response.data.map(MtgCardModel.fromSFCard).toList(),
           hasMore: response.hasMore,
@@ -49,16 +50,20 @@ class MtgRepositoryImpl implements MtgRepository {
         ),
       );
     } on sfa.ScryfallException catch (e) {
-      return Left(
+      return (
         Failure.repositoryException(
           code: e.code,
           details: e.details,
           status: e.status,
           warnings: e.warnings,
         ),
+        null
       );
     }
   }
 }
 
 class MockMtgRepositoryImpl extends Mock implements MtgRepositoryImpl {}
+
+typedef GetCardByIdPattern = (Failure?, MtgCardModel?);
+typedef GetCardsBySearchPattern = (Failure?, PaginableList<MtgCardModel>?);
