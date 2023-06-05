@@ -1,15 +1,11 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:sideboard/modules/app/presentation/home_page/home_page.dart';
+import 'package:sideboard/modules/app/view/home_page/home_page.dart';
+import 'package:sideboard/modules/card_search/card_search_module.dart';
 import 'package:sideboard/modules/deck_generator/deck_generator_module.dart';
 
 class AppModule extends Module {
   @override
-  List<Bind<Object>> get binds => [
-        // Bind.singleton((i) => OpenAIRepositoryImpl()),
-        // Bind.singleton<DeckGeneratorBloc>(
-        //   (i) => DeckGeneratorBloc(openAIRepository: i()),
-        // ),
-      ];
+  List<Bind<Object>> get binds => [];
 
   @override
   List<ModularRoute> get routes => [
@@ -21,12 +17,17 @@ class AppModule extends Module {
           AppRoutes.deckGenerator.name,
           module: DeckGeneratorModule(),
         ),
+        ModuleRoute<dynamic>(
+          AppRoutes.cardSearch.name,
+          module: CardSearchModule(),
+        ),
       ];
 }
 
 enum AppRoutes {
   home,
   deckGenerator,
+  cardSearch,
 }
 
 extension AppRouteNameExtension on AppRoutes {
@@ -36,6 +37,8 @@ extension AppRouteNameExtension on AppRoutes {
         return '/';
       case AppRoutes.deckGenerator:
         return '/deck_generator';
+      case AppRoutes.cardSearch:
+        return '/card_search';
     }
   }
 }

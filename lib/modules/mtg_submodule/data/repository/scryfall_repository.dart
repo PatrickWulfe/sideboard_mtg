@@ -63,6 +63,3 @@ class ScryfallRepository implements MtgRepository {
     }
   }
 }
-
-// typedef GetCardByIdPattern = (Failure?, MtgCardModel?);
-// typedef GetCardsBySearchPattern = (Failure?, PaginableList<MtgCardModel>?);

@@ -28,7 +28,8 @@ dependencies:
   injectable_generator: ^2.1.6
   # intl: ^0.18.0
   json_annotation: ^4.8.1
-  mockito: ^5.4.1
+  mockito: 
+    path: ../../github/mockito
   modular_bloc_bind: ^1.0.1
   path_provider: ^2.0.15
   responsive_builder: ^0.7.0

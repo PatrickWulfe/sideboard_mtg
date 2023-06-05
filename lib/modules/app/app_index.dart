@@ -1,2 +1,3 @@
 export 'app_module.dart';
-export 'presentation/presentation_index.dart';
+export 'bloc/bloc_index.dart';
+export 'view/view_index.dart';

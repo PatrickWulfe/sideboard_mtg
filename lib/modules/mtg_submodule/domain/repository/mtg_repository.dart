@@ -1,4 +1,4 @@
-import 'package:sideboard/core/constants/failure.dart';
+import 'package:sideboard/core/core_index.dart';
 import 'package:sideboard/modules/mtg_submodule/data/data_index.dart';
 
 abstract class MtgRepository {

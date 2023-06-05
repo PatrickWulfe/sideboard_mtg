@@ -16,8 +16,33 @@ class MobileCardSearchView extends StatelessWidget {
           builder: (context, state) {
             return Column(
               children: [
-                SearchBar(),
-                // AnimatedList(),
+                const SearchBar(),
+                state.when(
+                  initial: () => const Center(
+                    child: Text('Search for a card'),
+                  ),
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  loaded: (cards, selectedIndex) => ListView.builder(
+                    itemCount: cards.length,
+                    itemBuilder: (context, index) {
+                      final card = cards[index];
+                      return ListTile(
+                        title: Text(card.name),
+                        subtitle: Text(card.setName),
+                        onTap: () {
+                          context
+                              .read<CardSearchBloc>()
+                              .add(CardSearchEvent.select(index));
+                        },
+                      );
+                    },
+                  ),
+                  error: (failure) => Center(
+                    child: Text(failure.toString()),
+                  ),
+                ),
               ],
             );
           },
