@@ -1,9 +1,10 @@
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:scryfall_api/scryfall_api.dart' as sfa;
 import 'package:sideboard/core/constants/failure.dart';
 import 'package:sideboard/modules/mtg_submodule/data/data_index.dart';
 import 'package:sideboard/modules/mtg_submodule/domain/repository/mtg_repository.dart';
 
-class ScryfallRepository implements MtgRepository {
+class ScryfallRepository implements MtgRepository, Disposable {
   ScryfallRepository({
     required this.apiClient,
   });
@@ -61,5 +62,10 @@ class ScryfallRepository implements MtgRepository {
         null
       );
     }
+  }
+
+  @override
+  void dispose() {
+    apiClient.close();
   }
 }
