@@ -1,4 +1,4 @@
-package com.patrickwulfe.sideboard
+package com.example.verygoodcore.sideboard
 
 import io.flutter.embedding.android.FlutterActivity
 

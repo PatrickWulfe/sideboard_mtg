@@ -12,26 +12,41 @@ part 'card_search_event.dart';
 part 'card_search_state.dart';
 
 class CardSearchBloc extends Bloc<CardSearchEvent, CardSearchState> {
-  CardSearchBloc() : super(const CardSearchState.initial()) {
+  CardSearchBloc()
+      : super(
+          const CardSearchState.initial(
+            listType: ListType.grid,
+          ),
+        ) {
     on<CardSearchEvent>((event, emit) async {
       await event.when(
         started: () {
-          emit(const CardSearchState.initial());
+          emit(const CardSearchState.initial(listType: ListType.grid));
         },
         search: (query) async {
-          emit(const CardSearchState.loading());
+          if (query == null || query.isEmpty) {
+            emit(const CardSearchState.initial(listType: ListType.grid));
+            return;
+          }
+          emit(CardSearchState.loading(listType: state.listType));
           await mtgRepository.getMtgCardsBySearch(query).then((result) {
             switch (result) {
               case (null, final PaginableList<MtgCardModel> cards):
                 emit(
                   CardSearchState.loaded(
+                    listType: state.listType,
                     cards: cards.data.map(MagicCard.fromMtgCardModel).toList(),
                     selectedIndex: null,
                   ),
                 );
                 break;
               case (final Failure failure, null):
-                emit(CardSearchState.error(failure: failure));
+                emit(
+                  CardSearchState.error(
+                    listType: state.listType,
+                    failure: failure,
+                  ),
+                );
             }
           });
         },
@@ -44,6 +59,9 @@ class CardSearchBloc extends Bloc<CardSearchEvent, CardSearchState> {
               orElse: () => state,
             ),
           );
+        },
+        listTypeChanged: (listType) {
+          emit(state.copyWith(listType: listType));
         },
       );
     });

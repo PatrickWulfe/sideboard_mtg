@@ -8,7 +8,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return ColoredBox(
+      color: Colors.white,
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,

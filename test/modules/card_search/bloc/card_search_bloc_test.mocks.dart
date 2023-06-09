@@ -138,4 +138,12 @@ class MockScryfallRepository extends _i1.Mock
                 )>.value((null, null)),
           ) as _i4
               .Future<(_i6.Failure?, _i5.PaginableList<_i5.MtgCardModel>?)>);
+  @override
+  void dispose() => super.noSuchMethod(
+        Invocation.method(
+          #dispose,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
 }

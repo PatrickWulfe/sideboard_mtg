@@ -25,19 +25,26 @@ class MagicCard with _$MagicCard {
   factory MagicCard.fromJson(Map<String, dynamic> json) =>
       _$MagicCardFromJson(json);
 
-  factory MagicCard.fromMtgCardModel(MtgCardModel mtgCardModel) => MagicCard(
-        id: mtgCardModel.id,
-        name: mtgCardModel.name,
-        url: mtgCardModel.url,
-        rulingsUri: mtgCardModel.rulingsUri,
-        cmc: mtgCardModel.cmc,
-        edhrecRank: mtgCardModel.edhrecRank,
-        legalities: mtgCardModel.legalities,
-        power: mtgCardModel.power,
-        toughness: mtgCardModel.toughness,
-        typeLine: mtgCardModel.typeLine,
-        imageUris: mtgCardModel.imageUris,
-        rarity: mtgCardModel.rarity,
-        setName: mtgCardModel.setName,
-      );
+  factory MagicCard.fromMtgCardModel(MtgCardModel mtgCardModel) {
+    var imageUris = mtgCardModel.imageUris;
+    if (mtgCardModel.imageUris == null ||
+        mtgCardModel.imageUris!.small.toString() == '') {
+      imageUris = mtgCardModel.cardFaces?.first.imageUris;
+    }
+    return MagicCard(
+      id: mtgCardModel.id,
+      name: mtgCardModel.name,
+      url: mtgCardModel.url,
+      rulingsUri: mtgCardModel.rulingsUri,
+      cmc: mtgCardModel.cmc,
+      edhrecRank: mtgCardModel.edhrecRank,
+      legalities: mtgCardModel.legalities,
+      power: mtgCardModel.power,
+      toughness: mtgCardModel.toughness,
+      typeLine: mtgCardModel.typeLine,
+      imageUris: imageUris,
+      rarity: mtgCardModel.rarity,
+      setName: mtgCardModel.setName,
+    );
+  }
 }

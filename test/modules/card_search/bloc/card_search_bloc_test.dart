@@ -37,7 +37,13 @@ void main() {
   group('card search bloc ...', () {
     whenListen(
       bloc,
-      Stream.fromIterable([const CardSearchState.initial()]),
+      Stream.fromIterable(
+        [
+          const CardSearchState.initial(
+            listType: ListType.grid,
+          )
+        ],
+      ),
     );
     blocTest<CardSearchBloc, CardSearchState>(
       'emits [Loading, Loaded] when SearchEvent is added.',
