@@ -1,5 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:sideboard/modules/app/view/home_page/home_page.dart';
+import 'package:sideboard/modules/card_parser/card_parser_module.dart';
 import 'package:sideboard/modules/card_search/card_search_module.dart';
 import 'package:sideboard/modules/deck_generator/deck_generator_module.dart';
 
@@ -21,6 +22,10 @@ class AppModule extends Module {
           AppRoutes.cardSearch.name,
           module: CardSearchModule(),
         ),
+        ModuleRoute<dynamic>(
+          AppRoutes.cardParser.name,
+          module: CardParserModule(),
+        ),
       ];
 }
 
@@ -28,6 +33,7 @@ enum AppRoutes {
   home,
   deckGenerator,
   cardSearch,
+  cardParser,
 }
 
 extension AppRouteNameExtension on AppRoutes {
@@ -39,6 +45,8 @@ extension AppRouteNameExtension on AppRoutes {
         return '/deck_generator';
       case AppRoutes.cardSearch:
         return '/card_search';
+      case AppRoutes.cardParser:
+        return '/card_parser';
     }
   }
 }

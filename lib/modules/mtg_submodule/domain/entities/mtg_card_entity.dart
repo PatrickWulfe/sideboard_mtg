@@ -1,12 +1,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sideboard/modules/mtg_submodule/data/data_index.dart';
 
-part 'magic_card.freezed.dart';
-part 'magic_card.g.dart';
+part 'mtg_card_entity.freezed.dart';
+part 'mtg_card_entity.g.dart';
 
 @freezed
-class MagicCard with _$MagicCard {
-  factory MagicCard({
+class MtgCardEntity with _$MtgCardEntity {
+  factory MtgCardEntity({
     required String id,
     required String name,
     required String url,
@@ -20,18 +20,18 @@ class MagicCard with _$MagicCard {
     required ImageUrisModel? imageUris,
     required MtgRarity rarity,
     required String setName,
-  }) = _MagicCard;
+  }) = _MtgCardEntity;
 
-  factory MagicCard.fromJson(Map<String, dynamic> json) =>
-      _$MagicCardFromJson(json);
+  factory MtgCardEntity.fromJson(Map<String, dynamic> json) =>
+      _$MtgCardEntityFromJson(json);
 
-  factory MagicCard.fromMtgCardModel(MtgCardModel mtgCardModel) {
+  factory MtgCardEntity.fromMtgCardModel(MtgCardModel mtgCardModel) {
     var imageUris = mtgCardModel.imageUris;
     if (mtgCardModel.imageUris == null ||
         mtgCardModel.imageUris!.small.toString() == '') {
       imageUris = mtgCardModel.cardFaces?.first.imageUris;
     }
-    return MagicCard(
+    return MtgCardEntity(
       id: mtgCardModel.id,
       name: mtgCardModel.name,
       url: mtgCardModel.url,

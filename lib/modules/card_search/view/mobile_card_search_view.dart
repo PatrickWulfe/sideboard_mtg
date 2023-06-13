@@ -4,7 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:sideboard/modules/card_search/bloc/card_search_bloc.dart';
 import 'package:sideboard/modules/card_search/view/widgets/search_header.dart';
-import 'package:sideboard/modules/mtg_submodule/domain/entities/magic_card.dart';
+import 'package:sideboard/modules/mtg_submodule/domain/entities/mtg_card_entity.dart';
 
 class MobileCardSearchView extends HookWidget {
   const MobileCardSearchView({super.key});
@@ -45,8 +45,7 @@ class MobileCardSearchView extends HookWidget {
                             childAspectRatio: .7,
                           ),
                           itemBuilder: (context, index) {
-                            final card = state.cards[index];
-                            return CardGridTile(card: card);
+                            return CardGridTile(card: state.cards[index]);
                           },
                         );
                       }
@@ -95,7 +94,7 @@ class CardGridTile extends StatelessWidget {
     super.key,
   });
 
-  final MagicCard card;
+  final MtgCardEntity card;
 
   @override
   Widget build(BuildContext context) {

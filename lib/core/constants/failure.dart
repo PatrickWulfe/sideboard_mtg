@@ -19,6 +19,11 @@ class Failure with _$Failure {
     required List<String>? warnings,
   }) = RepositoryExceptionFailure;
 
+  const factory Failure.cardParserFailure({
+    required String? message,
+    required List<String>? erroredLines,
+  }) = CardParserFailure;
+
   factory Failure.fromJson(Map<String, dynamic> json) =>
       _$FailureFromJson(json);
 }

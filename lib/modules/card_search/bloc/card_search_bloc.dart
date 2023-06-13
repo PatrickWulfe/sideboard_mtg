@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sideboard/core/constants/failure.dart';
 import 'package:sideboard/core/utils/structures/paginable_list.dart';
 import 'package:sideboard/modules/mtg_submodule/data/models/card_model.dart';
-import 'package:sideboard/modules/mtg_submodule/domain/entities/magic_card.dart';
+import 'package:sideboard/modules/mtg_submodule/domain/entities/mtg_card_entity.dart';
 import 'package:sideboard/modules/mtg_submodule/domain/repository/mtg_repository.dart';
 
 part 'card_search_bloc.freezed.dart';
@@ -35,7 +35,8 @@ class CardSearchBloc extends Bloc<CardSearchEvent, CardSearchState> {
                 emit(
                   CardSearchState.loaded(
                     listType: state.listType,
-                    cards: cards.data.map(MagicCard.fromMtgCardModel).toList(),
+                    cards:
+                        cards.data.map(MtgCardEntity.fromMtgCardModel).toList(),
                     selectedIndex: null,
                   ),
                 );

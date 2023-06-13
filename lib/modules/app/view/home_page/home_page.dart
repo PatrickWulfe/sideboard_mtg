@@ -27,6 +27,13 @@ class HomePage extends StatelessWidget {
                 '${AppRoutes.cardSearch.name}/',
               ),
             ),
+            const Gap(8),
+            FilledButton(
+              child: const Text('Go to parser'),
+              onPressed: () => Modular.to.navigate(
+                '${AppRoutes.cardParser.name}/',
+              ),
+            ),
           ],
         ),
       ),

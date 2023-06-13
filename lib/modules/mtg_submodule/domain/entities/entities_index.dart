@@ -1,1 +1,1 @@
-export 'magic_card.dart';
+export 'mtg_card_entity.dart';

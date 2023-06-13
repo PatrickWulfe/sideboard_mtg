@@ -25,7 +25,6 @@ dependencies:
   flutter_modular: ^5.0.3
   freezed_annotation: ^2.2.0
   gap: ^3.0.0
-  get_it: ^7.6.0
   hydrated_bloc: ^9.1.1
   injectable_generator: ^2.1.6
   intl: ^0.18.0

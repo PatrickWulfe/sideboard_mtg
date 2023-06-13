@@ -120,6 +120,19 @@ class MockScryfallRepository extends _i1.Mock
             _i4.Future<(_i6.Failure?, _i5.MtgCardModel?)>.value((null, null)),
       ) as _i4.Future<(_i6.Failure?, _i5.MtgCardModel?)>);
   @override
+  _i4.Future<(_i6.Failure?, _i5.MtgCardModel?)> getMtgCardByName(
+          String? name) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getMtgCardByName,
+          [name],
+        ),
+        returnValue:
+            _i4.Future<(_i6.Failure?, _i5.MtgCardModel?)>.value((null, null)),
+        returnValueForMissingStub:
+            _i4.Future<(_i6.Failure?, _i5.MtgCardModel?)>.value((null, null)),
+      ) as _i4.Future<(_i6.Failure?, _i5.MtgCardModel?)>);
+  @override
   _i4.Future<(_i6.Failure?, _i5.PaginableList<_i5.MtgCardModel>?)>
       getMtgCardsBySearch(String? searchStr) => (super.noSuchMethod(
             Invocation.method(

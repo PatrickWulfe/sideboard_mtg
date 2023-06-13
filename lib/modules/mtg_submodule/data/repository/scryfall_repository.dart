@@ -29,6 +29,27 @@ class ScryfallRepository implements MtgRepository, Disposable {
   }
 
   @override
+  Future<(Failure?, MtgCardModel?)> getMtgCardByName(String name) async {
+    try {
+      final response = await apiClient.getCardByName(
+        name,
+        searchType: sfa.SearchType.fuzzy,
+      );
+      return (null, (MtgCardModel.fromSFCard(response)));
+    } on sfa.ScryfallException catch (e) {
+      return (
+        Failure.repositoryException(
+          code: e.code,
+          details: e.details,
+          status: e.status,
+          warnings: e.warnings,
+        ),
+        null
+      );
+    }
+  }
+
+  @override
   Future<(Failure?, PaginableList<MtgCardModel>?)> getMtgCardsBySearch(
     String searchStr,
   ) async {

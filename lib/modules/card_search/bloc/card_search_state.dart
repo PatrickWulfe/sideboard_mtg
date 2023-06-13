@@ -10,7 +10,7 @@ class CardSearchState with _$CardSearchState {
   }) = CardSearchStateLoading;
   const factory CardSearchState.loaded({
     required ListType listType,
-    required List<MagicCard> cards,
+    required List<MtgCardEntity> cards,
     required int? selectedIndex,
   }) = CardSearchStateLoaded;
   const factory CardSearchState.error({
